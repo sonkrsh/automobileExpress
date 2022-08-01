@@ -8,6 +8,6 @@ const router = express.Router();
 
 router
   .route('/carCompany')
-  .post(upload.single('icon'), validate(carCompanyValidation.createCarCompany), carCompanyController.createCarCompany);
-
+  .post(upload.single('icon'), validate(carCompanyValidation.createCarCompany), carCompanyController.createCarCompany)
+  .patch(validate(carCompanyValidation.editCarCompany), carCompanyController.editCarCompany);
 module.exports = router;

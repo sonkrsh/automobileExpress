@@ -8,6 +8,16 @@ const createCarCompany = {
   }),
 };
 
+const editCarCompany = {
+  body: Joi.object().keys({
+    id: Joi.string().required(),
+    name: Joi.string(),
+    carModel: Joi.array(),
+    icon: Joi.any(),
+  }),
+};
+
 module.exports = {
   createCarCompany,
+  editCarCompany,
 };

@@ -11,7 +11,12 @@ const createCarCompany = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Please Upload Image');
   }
 });
+const editCarCompany = catchAsync(async (req, res) => {
+  const carCompanyEdit = await carCompanyService.editcarCompany(req.body);
+  res.send({ carCompanyEdit });
+});
 
 module.exports = {
   createCarCompany,
+  editCarCompany,
 };

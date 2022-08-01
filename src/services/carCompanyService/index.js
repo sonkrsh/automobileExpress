@@ -6,6 +6,10 @@ const shortid = require('shortid');
 const { CarCompany } = require('../../models');
 const ApiError = require('../../utils/ApiError');
 
+const getById = async (id) => {
+  return CarCompany.findById(id);
+};
+
 const createcarCompany = async (data) => {
   const imgShortId = `${shortid.generate()}-${data.file.originalname}`;
   const combineData = {
@@ -25,6 +29,18 @@ const createcarCompany = async (data) => {
   throw new ApiError(httpStatus.BAD_REQUEST, 'Already in DB');
 };
 
+const editcarCompany = async (data) => {
+  const carCompany = await getById(data.id);
+  if (!carCompany) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  Object.assign(carCompany, data);
+  await carCompany.save();
+  return carCompany;
+};
+
 module.exports = {
   createcarCompany,
+  editcarCompany,
 };
