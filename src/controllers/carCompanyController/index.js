@@ -1,9 +1,15 @@
+const httpStatus = require('http-status');
 const catchAsync = require('../../utils/catchAsync');
-// const { carCompanyService } = require('../../services');
+const ApiError = require('../../utils/ApiError');
+const { carCompanyService } = require('../../services');
 
 const createCarCompany = catchAsync(async (req, res) => {
-  // const user = await carCompanyService.createcarCompany(req.body);
-  // res.send({ user });
+  if (req.file) {
+    const carCompany = await carCompanyService.createcarCompany(req);
+    res.send({ carCompany });
+  } else {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Please Upload Image');
+  }
 });
 
 module.exports = {

@@ -1,6 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const xss = require('xss-clean');
+const path = require('path');
 const mongoSanitize = require('express-mongo-sanitize');
 const compression = require('compression');
 const cors = require('cors');
@@ -40,6 +41,8 @@ app.use(compression());
 // enable cors
 app.use(cors());
 app.options('*', cors());
+
+app.use(express.static(path.join(__dirname, 'uploads')));
 
 // jwt authentication
 app.use(passport.initialize());

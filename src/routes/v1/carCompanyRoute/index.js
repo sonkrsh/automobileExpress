@@ -1,10 +1,13 @@
 const express = require('express');
 const validate = require('../../../middlewares/validate');
-const carCompanyController = require('../../../controllers/carCompanyController');
-const carCompanyValidation = require('../../../validations/carCompanyValidation');
+const { carCompanyController } = require('../../../controllers');
+const { carCompanyValidation } = require('../../../validations');
+const upload = require('../../../utils/multer');
 
 const router = express.Router();
 
-router.route('/carCompany').post(validate(carCompanyValidation.createCarCompany), carCompanyController.createCarCompany);
+router
+  .route('/carCompany')
+  .post(upload.single('icon'), validate(carCompanyValidation.createCarCompany), carCompanyController.createCarCompany);
 
 module.exports = router;
