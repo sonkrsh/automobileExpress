@@ -40,7 +40,17 @@ const editcarCompany = async (data) => {
   return carCompany;
 };
 
+const deletecarCompany = async (data) => {
+  const carCompany = await getById(data.id);
+  if (!carCompany) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'car company not found');
+  }
+  await carCompany.remove();
+  return carCompany;
+};
+
 module.exports = {
   createcarCompany,
   editcarCompany,
+  deletecarCompany,
 };

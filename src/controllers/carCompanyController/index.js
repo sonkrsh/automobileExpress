@@ -16,7 +16,13 @@ const editCarCompany = catchAsync(async (req, res) => {
   res.send({ carCompanyEdit });
 });
 
+const deleteCarCompany = catchAsync(async (req, res) => {
+  await carCompanyService.deletecarCompany(req.body);
+  res.send('Succesfully Deleted');
+});
+
 module.exports = {
   createCarCompany,
   editCarCompany,
+  deleteCarCompany,
 };

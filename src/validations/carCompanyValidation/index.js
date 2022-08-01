@@ -17,7 +17,14 @@ const editCarCompany = {
   }),
 };
 
+const deleteCarCompany = {
+  body: Joi.object().keys({
+    id: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   createCarCompany,
   editCarCompany,
+  deleteCarCompany,
 };
