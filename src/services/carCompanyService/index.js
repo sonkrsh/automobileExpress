@@ -48,9 +48,14 @@ const deletecarCompany = async (data) => {
   await carCompany.remove();
   return carCompany;
 };
+const getcarCompany = async () => {
+  const allcarCompany = await CarCompany.find();
+  return allcarCompany;
+};
 
 module.exports = {
   createcarCompany,
   editcarCompany,
   deletecarCompany,
+  getcarCompany,
 };

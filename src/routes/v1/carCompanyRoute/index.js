@@ -16,5 +16,6 @@ router
     carCompanyController.createCarCompany
   )
   .patch(auth(), validate(carCompanyValidation.editCarCompany), carCompanyController.editCarCompany)
-  .delete(auth(), validate(carCompanyValidation.deleteCarCompany), carCompanyController.deleteCarCompany);
+  .delete(auth(), validate(carCompanyValidation.deleteCarCompany), carCompanyController.deleteCarCompany)
+  .get(auth(), carCompanyController.getCarCompany);
 module.exports = router;
