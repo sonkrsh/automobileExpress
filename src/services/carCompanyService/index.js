@@ -14,16 +14,16 @@ const createcarCompany = async (data) => {
   const imgShortId = `${shortid.generate()}-${data.file.originalname}`;
   const combineData = {
     name: data.body.name,
-    icon: process.env.IMAGE_URL + imgShortId,
+    icon: `${process.env.IMAGE_URL}carCompany/${imgShortId}`,
   };
 
   const check = await CarCompany.findOne(data.body);
 
   if (_.isEmpty(check)) {
     await sharp(data.file.buffer)
-      .resize(500)
-      .jpeg({ quality: 50 })
-      .toFile(path.join(path.dirname(__dirname), `.././uploads/${imgShortId}`));
+      .resize(_.toNumber(process.env.IMAGE_RESIZE))
+      .jpeg({ quality: _.toNumber(process.env.IMAGE_QUALITY) })
+      .toFile(path.join(path.dirname(__dirname), `.././uploads/carCompany/${imgShortId}`));
     return CarCompany.create(combineData);
   }
   throw new ApiError(httpStatus.BAD_REQUEST, 'Already in DB');

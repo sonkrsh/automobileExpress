@@ -1,15 +1,16 @@
+// const CarModel = './carCompanyModel';
 const mongoose = require('mongoose');
 const { toJSON } = require('../plugins');
 
 const carModelSchema = mongoose.Schema(
   {
-    nameZ: {
+    name: {
       type: String,
       required: true,
       trim: true,
       unique: true,
     },
-    iconZ: {
+    icon: {
       type: String,
       trim: true,
       unique: true,
