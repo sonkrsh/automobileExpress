@@ -7,7 +7,15 @@ const createCarModel = {
     icon: Joi.any(),
   }),
 };
+const editCarModel = {
+  body: Joi.object().keys({
+    id: Joi.string().required(),
+    name: Joi.string().required(),
+    icon: Joi.any(),
+  }),
+};
 
 module.exports = {
   createCarModel,
+  editCarModel,
 };

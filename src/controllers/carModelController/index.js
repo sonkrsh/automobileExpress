@@ -13,6 +13,11 @@ const createCarModel = catchAsync(async (req, res) => {
   }
 });
 
+const editCarModel = catchAsync(async (req, res) => {
+  const carCompanyEdit = await carModelService.editcarModel(req);
+  res.send({ carCompanyEdit });
+});
 module.exports = {
   createCarModel,
+  editCarModel,
 };

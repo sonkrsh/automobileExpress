@@ -38,7 +38,18 @@ const createcarModel = async (data) => {
   }
   throw new ApiError(httpStatus.BAD_REQUEST, 'Already in DB');
 };
+const editcarModel = async (data) => {
+  const newZ = {
+    // _id: '62f08042cc256e06e486ddfb',
+    name: 'badla',
+    img: 'http://localhost:3000/carModel/Yop7MI8wC-download.jpeg',
+  };
+  const check = await CarCompany.update({ 'carModel._id': data.body.id }, newZ);
+  return check;
+  // throw new ApiError(httpStatus.BAD_REQUEST, 'Already in DB');
+};
 
 module.exports = {
   createcarModel,
+  editcarModel,
 };
