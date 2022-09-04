@@ -1,8 +1,8 @@
 const httpStatus = require('http-status');
 const _ = require('lodash');
-const sharp = require('sharp');
-const path = require('path');
+
 const shortid = require('shortid');
+const iconUpload = require('../iconUpload');
 const { CarCompany } = require('../../models');
 const ApiError = require('../../utils/ApiError');
 
@@ -10,32 +10,47 @@ const getById = async (id) => {
   return CarCompany.findById(id);
 };
 
-const createcarCompany = async (data) => {
-  const imgShortId = `${shortid.generate()}-${data.file.originalname}`;
-  const combineData = {
-    name: data.body.name,
-    icon: `${process.env.IMAGE_URL}carCompany/${imgShortId}`,
+const generateImageName = (data) => {
+  let imgShortId = null;
+  let combineData = null;
+  if (data.file) {
+    imgShortId = `${shortid.generate()}-${data.file.originalname}`;
+    combineData = {
+      name: data.body.name,
+      icon: `${process.env.IMAGE_URL}${process.env.UPLOAD_ICON_DIR}/${imgShortId}`,
+    };
+  }
+  return {
+    imgShortId,
+    combineData,
   };
+};
+
+const createcarCompany = async (data) => {
+  const dataInSequence = generateImageName(data);
 
   const check = await CarCompany.findOne(data.body);
 
   if (_.isEmpty(check)) {
-    await sharp(data.file.buffer)
-      .resize(_.toNumber(process.env.IMAGE_RESIZE))
-      .jpeg({ quality: _.toNumber(process.env.IMAGE_QUALITY) })
-      .toFile(path.join(path.dirname(__dirname), `.././uploads/carCompany/${imgShortId}`));
-    return CarCompany.create(combineData);
+    await iconUpload(data, dataInSequence.imgShortId, process.env.UPLOAD_ICON_DIR);
+    return CarCompany.create(dataInSequence.combineData);
   }
   throw new ApiError(httpStatus.BAD_REQUEST, 'Already in DB');
 };
 
 const editcarCompany = async (data) => {
-  const carCompany = await getById(data.id);
+  const carCompany = await getById(data.body.id);
   if (!carCompany) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
+  if (data.file) {
+    const dataInSequence = generateImageName(data);
+    await iconUpload(data, dataInSequence.imgShortId, process.env.UPLOAD_ICON_DIR);
+    Object.assign(carCompany, dataInSequence.combineData);
+  } else {
+    Object.assign(carCompany, data.body);
+  }
 
-  Object.assign(carCompany, data);
   await carCompany.save();
   return carCompany;
 };

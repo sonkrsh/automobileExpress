@@ -12,7 +12,7 @@ const createCarCompany = catchAsync(async (req, res) => {
   }
 });
 const editCarCompany = catchAsync(async (req, res) => {
-  const carCompanyEdit = await carCompanyService.editcarCompany(req.body);
+  const carCompanyEdit = await carCompanyService.editcarCompany(req);
   res.send({ carCompanyEdit });
 });
 
